@@ -17,7 +17,22 @@ if (email.value && password.value) {
         console.log(errorMessage);
     });
 }else{
-    console.log("Enter correct email and password");
+    // console.log("Enter correct email and password");
+    const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.onmouseenter = Swal.stopTimer;
+          toast.onmouseleave = Swal.resumeTimer;
+        }
+      });
+      Toast.fire({
+        icon: "error",
+        title: "Enter correct email and password"
+      });
 }
 }
 

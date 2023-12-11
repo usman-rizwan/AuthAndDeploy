@@ -27,9 +27,39 @@ let registerUser = () => {
 
     }
     if (!regName.value.trim()) {
-        console.log("Enter Valid Name");
+        // console.log("Enter Valid Name");
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Enter Valid Name"
+          });
     } else if (!regPhone.value.match(phoneNumberRegex)) {
         console.log("Enetr correct number");
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Enter correct phone number number"
+          });
     }  else if (!regEmail.value.match(mailFormat)) {
         console.log("Incorrect Email");
     }  else if (!regPassword.value.match(passFormat)) {

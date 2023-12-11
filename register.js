@@ -44,7 +44,7 @@ let registerUser = () => {
             title: "Enter Valid Name"
           });
     } else if (!regPhone.value.match(phoneNumberRegex)) {
-        console.log("Enetr correct number");
+        // console.log("Enetr correct number");
         const Toast = Swal.mixin({
             toast: true,
             position: "top-end",
@@ -58,12 +58,42 @@ let registerUser = () => {
           });
           Toast.fire({
             icon: "error",
-            title: "Enter correct phone number number"
+            title: "Enter correct phone number "
           });
     }  else if (!regEmail.value.match(mailFormat)) {
-        console.log("Incorrect Email");
+        // console.log("Incorrect Email");
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Enter correct Email Address"
+          });
     }  else if (!regPassword.value.match(passFormat)) {
-        console.log("Pass Format Not Correct");
+        // console.log("Pass Format Not Correct");
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "error",
+            title: "Enter Correct Password"
+          });
     } 
     else {
         createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value)

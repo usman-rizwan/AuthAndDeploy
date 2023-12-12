@@ -93,7 +93,7 @@ let registerUser = () => {
     });
     Toast.fire({
       icon: "error",
-      title: "Enter Correct Password",
+      title: "Password must be greater than 6 charachters and must contains alphabets and number",
     });
   } else {
     btnText.style.display = "none"

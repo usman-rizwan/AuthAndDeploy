@@ -94,14 +94,13 @@ let deleteAcc = () => {
         .then(async () => {
           // User deleted.
          let status =  localStorage.setItem("status", true)
-         console.log(status);
           console.log("Auth wala user delete");
             try {
               await deleteDoc(doc(db, "users", localUid));
             } catch (error) {
               console.log(error);
             }
-            console.log("user Deleted");
+            console.log("User Deleted");
             window.location= "./index.html"
          
           })

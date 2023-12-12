@@ -1,3 +1,11 @@
 .h-10{
   height: 30vh;
 }
+.swal2-cancel{
+  margin-right: 5px !important;
+}
+@media screen and (max-width: 300px) {
+  .swal2-cancel{
+    margin-bottom: 5px !important;
+  }
+}

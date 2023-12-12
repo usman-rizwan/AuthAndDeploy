@@ -93,11 +93,12 @@ let registerUser = () => {
     });
     Toast.fire({
       icon: "error",
-      title: "Password must be greater than 6 charachters and must contains alphabets and number",
+      title:
+        "Password must be greater than 6 charachters and must contains alphabets and number",
     });
   } else {
-    btnText.style.display = "none"
-    loader.style.display = "flex"
+    btnText.style.display = "none";
+    loader.style.display = "flex";
     createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value)
       .then(async (userCredential) => {
         // Signed up
@@ -114,8 +115,8 @@ let registerUser = () => {
           console.log(
             `Document written with ID: ${user.uid} user name -- > ${userData.name}`
           );
-          btnText.style.display = "block"
-          loader.style.display = "none"
+          btnText.style.display = "block";
+          loader.style.display = "none";
           window.location = "/profile.html";
         } catch (e) {
           console.error("Error adding document: ", e);
@@ -128,8 +129,8 @@ let registerUser = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        btnText.style.display = "block"
-        loader.style.display = "none"
+        btnText.style.display = "block";
+        loader.style.display = "none";
         console.log(errorMessage);
         // ..
       });

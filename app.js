@@ -180,25 +180,60 @@ let logoutBtn = document.getElementById("logoutBtn");
 logoutBtn && logoutBtn.addEventListener("click", logOutUser);
 
 let deleteAcc = () => {
-  const user = auth.currentUser;
-  localStorage.clear();
-    deleteUser(user)
-      .then(async () => {
-        // User deleted.
-        try {
-          await deleteDoc(doc(db, "users", localUid));
-        } catch (error) {
-          console.log(error);
-        }
-        console.log("user Deleted");
-        localStorage.clear()
-      })
-      .catch((error) => {
-        // An error ocurred
-        console.log("An unkown error occurred. Try Again", error);
-        // ...
-      });
- 
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    buttonsStyling: false,
+  });
+  swalWithBootstrapButtons
+    .fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "No, cancel!",
+      reverseButtons: true,
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        swalWithBootstrapButtons.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+        const user = auth.currentUser;
+        localStorage.clear();
+
+        deleteUser(user)
+          .then(async () => {
+            // User deleted.
+            try {
+              await deleteDoc(doc(db, "users", localUid));
+            } catch (error) {
+              console.log(error);
+            }
+            console.log("user Deleted");
+            // localStorage.setItem("status", true)
+          })
+          .catch((error) => {
+            // An error ocurred
+            console.log("An unkown error occurred. Try Again", error);
+            // ...
+          });
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire({
+          title: "Cancelled",
+          text: "Your account is safe :)",
+          icon: "error",
+        });
+      }
+    });
 };
 let deleteAccBtn = document.getElementById("deleteAccBtn");
 

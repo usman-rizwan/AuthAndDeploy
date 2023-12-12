@@ -6,12 +6,16 @@ let loginUser = ()=>{
 let email  =document.getElementById("email")
 let password  =document.getElementById("password")
 if (email.value && password.value) {
+  btnText.style.display = "none"
+  loader.style.display = "flex"
     signInWithEmailAndPassword(auth, email.value, password.value)
     .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
         localStorage.setItem("userUid" , user.uid)
         console.log("user ,", user.uid);
+        btnText.style.display = "block"
+        loader.style.display = "none"
         window.location = "/profile.html"
         // ...
     })
@@ -34,6 +38,8 @@ if (email.value && password.value) {
           icon: "error",
           title: "User Not Found"
         });
+        btnText.style.display = "block"
+        loader.style.display = "none"
         email.value = ""
         password.value = ""
     });

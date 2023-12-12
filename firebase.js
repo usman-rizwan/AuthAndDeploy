@@ -7,9 +7,10 @@ import {
   onAuthStateChanged,
   signOut,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  deleteUser 
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, setDoc ,doc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, setDoc ,doc , deleteDoc  } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
@@ -36,5 +37,8 @@ export {
   addDoc,
   setDoc,
   doc,
-  db
+  db,
+  deleteUser,
+  deleteDoc 
+  
 };

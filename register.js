@@ -130,7 +130,7 @@ let registerUser = () => {
         const errorMessage = error.message;
         btnText.style.display = "block"
         loader.style.display = "none"
-        console.log(error);
+        console.log(errorMessage);
         // ..
       });
   }

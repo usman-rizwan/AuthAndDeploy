@@ -121,11 +121,14 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   provider,
+  deleteUser,
+  deleteDoc,
+  doc,
+  db,
 } from "./firebase.js";
 let localUid = localStorage.getItem("userUid");
 onAuthStateChanged(auth, (user) => {
   if (user && localUid) {
- 
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/auth.user
     const uid = user.uid;
@@ -176,6 +179,30 @@ let logoutBtn = document.getElementById("logoutBtn");
 
 logoutBtn && logoutBtn.addEventListener("click", logOutUser);
 
+let deleteAcc = () => {
+  const user = auth.currentUser;
+  localStorage.clear();
+    deleteUser(user)
+      .then(async () => {
+        // User deleted.
+        try {
+          await deleteDoc(doc(db, "users", localUid));
+        } catch (error) {
+          console.log(error);
+        }
+        console.log("user Deleted");
+        localStorage.clear()
+      })
+      .catch((error) => {
+        // An error ocurred
+        console.log("An unkown error occurred. Try Again", error);
+        // ...
+      });
+ 
+};
+let deleteAccBtn = document.getElementById("deleteAccBtn");
+
+deleteAccBtn && deleteAccBtn.addEventListener("click", deleteAcc);
 let googleSignIn = () => {
   signInWithPopup(auth, provider)
     .then((result) => {

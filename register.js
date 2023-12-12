@@ -14,8 +14,7 @@ let registerUser = () => {
   let btnText = document.getElementById("btnText");
   let loader = document.getElementById("loader");
   let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  let phoneNumberRegex =
-    /^(\+\d{1,4}\s?)?(\(?\d{1,}\)?[\s.-]?)?\d{1,}[\s.-]?\d{1,}[\s.-]?\d{1,}$/;
+  let phoneNumberRegex = /^(\+\d{1,4}\s?)?(\(?\d{1,}\)?[\s.-]?)?\d{1,}[\s.-]?\d{1,}[\s.-]?\d{1,}$/;
   let passFormat = /^[A-Za-z]\w{7,14}$/;
   let regEmail = document.getElementById("reg-email");
   let regPassword = document.getElementById("reg-password");

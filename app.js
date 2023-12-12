@@ -1,119 +1,3 @@
-// import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-// import {
-//     getAuth,
-//     createUserWithEmailAndPassword,
-//     signInWithEmailAndPassword,
-//     onAuthStateChanged,
-//     sendEmailVerification,
-// } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-// import {
-//     getFirestore,
-//     collection,
-//     addDoc,
-//     getDocs,
-//     doc,
-//     setDoc,
-// } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-
-// // Your web app's Firebase configuration
-// const firebaseConfig = {
-//     apiKey: "AIzaSyD7pvJuZOX2O-tZJRfcuhPSUyZDZyi1Wbs",
-//     authDomain: "fir-users-auth-fc835.firebaseapp.com",
-//     projectId: "fir-users-auth-fc835",
-//     storageBucket: "fir-users-auth-fc835.appspot.com",
-//     messagingSenderId: "240085089487",
-//     appId: "1:240085089487:web:e18821a8d60a10123b4bba",
-// };
-
-// // Initialize Firebase
-// const app = initializeApp(firebaseConfig);
-// const auth = getAuth();
-// const db = getFirestore(app);
-
-// let regBtn = document.getElementById("regBtn");
-// console.log(regBtn);
-
-// regBtn.addEventListener("click", () => {
-//     let email = document.getElementById("email");
-//     let password = document.getElementById("password");
-//     let name = document.getElementById("name");
-//     let number = document.getElementById("number");
-//     let userData = {
-//         name: name.value,
-//         email: email.value,
-//         password: password.value,
-//         number: number.value,
-//     };
-
-//     createUserWithEmailAndPassword(auth, userData.email, userData.password)
-//         .then(async (userCredential) => {
-//             // Signed up
-//             const user = userCredential.user;
-//             try {
-//                 await setDoc(doc(db, "users", user.uid), {
-//                     ...userData,
-//                     id: user.uid,
-//                 });
-//                 console.log(
-//                     `Document written with ID: ${user.id} user name -- > ${userData.name}`
-//                 );
-//                 window.location = "profile.html";
-//             } catch (e) {
-//                 console.error("Error adding document: ", e);
-//             }
-//         })
-//         .catch((error) => {
-//             const errorCode = error.code;
-//             const errorMessage = error.message;
-//             console.log("error --> " + errorMessage);
-//         });
-// });
-
-// let loginBtn = document.getElementById("loginBtn");
-// console.log(loginBtn);
-// loginBtn.addEventListener("click", () => {
-//     let loginEmail = document.getElementById("loginEmail");
-//     let loginPassword = document.getElementById("loginPassword");
-//     signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
-//         .then((userCredential) => {
-//             // Signed in
-//             const user = userCredential.user;
-//             console.log("user-- > ", user);
-//             window.location = "profile.html";
-//             // ...
-//         })
-//         .catch((error) => {
-//             const errorCode = error.code;
-//             const errorMessage = error.message;
-//             console.log("error ", errorMessage);
-//         });
-// });
-// onAuthStateChanged(auth, (user) => {
-//     if (user) {
-//         const uid = user.uid;
-//         console.log("user --<>", user);
-//         window.location = "/profile.html"
-//         // ...
-//     } else {
-//         // User is signed out
-//         // ...
-//         if (location.pathname !== "/index.html") {
-
-//             window.location = "index.html";
-//         }
-//         console.log("Not Login");
-//     }
-// });
-
-// let getUserData = async () => {
-//     const querySnapshot = await getDocs(collection(db, "users"));
-//     querySnapshot.forEach((doc) => {
-//         console.log(`${doc.id} => `, doc.data());
-//     });
-//     console.log("Current User -- >", auth.currentUser);
-// };
-// getUserData()
-
 import {
   onAuthStateChanged,
   auth,
@@ -152,8 +36,8 @@ onAuthStateChanged(auth, (user) => {
     // ...
   } else {
     // User is signed out
-    console.log("not logged in ");
-    if (
+    console.log("not logged in");
+    if ( localStorage.getItem("status") &&
       location.pathname !== "/index.html" &&
       location.pathname !== "/register.html"
     ) {
@@ -206,17 +90,20 @@ let deleteAcc = () => {
         });
         const user = auth.currentUser;
         localStorage.clear();
-
         deleteUser(user)
-          .then(async () => {
-            // User deleted.
+        .then(async () => {
+          // User deleted.
+         let status =  localStorage.setItem("status", true)
+         console.log(status);
+          console.log("Auth wala user delete");
             try {
               await deleteDoc(doc(db, "users", localUid));
             } catch (error) {
               console.log(error);
             }
             console.log("user Deleted");
-            // localStorage.setItem("status", true)
+            window.location= "./index.html"
+         
           })
           .catch((error) => {
             // An error ocurred

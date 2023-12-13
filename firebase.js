@@ -14,7 +14,6 @@ import { getFirestore, collection, addDoc, setDoc ,doc , deleteDoc  } from "http
 
 
 const firebaseConfig = {
-
 };
 
 // Initialize Firebase

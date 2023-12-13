@@ -13,6 +13,7 @@ if (email.value && password.value) {
         // Signed in 
         const user = userCredential.user;
         localStorage.setItem("userUid" , user.uid)
+        localStorage.setItem("status" , true)
         console.log("user ,", user.uid);
         btnText.style.display = "block"
         loader.style.display = "none"

@@ -150,6 +150,7 @@ let googleSignIn = () => {
 
       console.log(user, "Gooogle<<<<<<<<<<<<<<<<<<");
       let localUid = localStorage.setItem("userUid", result.user.uid);
+      localStorage.setItem("status" , true)
       console.log(localUid);
 
       // IdP data available using getAdditionalUserInfo(result)

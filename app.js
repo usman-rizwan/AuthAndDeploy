@@ -38,8 +38,8 @@ onAuthStateChanged(auth, (user) => {
     // User is signed out
     console.log("not logged in");
     if ( localStorage.getItem("status") &&
-      location.pathname !== "/index.html" &&
-      location.pathname !== "/register.html"
+    (  location.pathname !== "/index.html" &&
+      location.pathname !== "/register.html")
     ) {
       window.location = "/index.html";
     }

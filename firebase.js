@@ -10,10 +10,11 @@ import {
   signInWithPopup,
   deleteUser 
 } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, setDoc ,doc , deleteDoc  } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, setDoc ,doc , deleteDoc ,getDoc   } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
 
 
 const firebaseConfig = {
+
 };
 
 // Initialize Firebase
@@ -38,6 +39,6 @@ export {
   doc,
   db,
   deleteUser,
-  deleteDoc 
+  deleteDoc ,getDoc
   
 };

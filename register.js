@@ -10,22 +10,17 @@ import {
   addDoc,
   setDoc,
 } from "./firebase.js";
+let btnText = document.getElementById("btnText");
+let loader = document.getElementById("loader");
+let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+let phoneNumberRegex = /^(\+\d{1,4}\s?)?(\(?\d{1,}\)?[\s.-]?)?\d{1,}[\s.-]?\d{1,}[\s.-]?\d{1,}$/;
+let passFormat = /^[A-Za-z]\w{7,14}$/;
+let regEmail = document.getElementById("reg-email");
+let regPassword = document.getElementById("reg-password");
+let regPhone = document.getElementById("reg-phone");
+let regName = document.getElementById("reg-name");
 let registerUser = () => {
-  let btnText = document.getElementById("btnText");
-  let loader = document.getElementById("loader");
-  let mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-  let phoneNumberRegex =  /^(\+\d{1,4}\s?)?(\(?\d{1,}\)?[\s.-]?)?\d{1,}[\s.-]?\d{1,}[\s.-]?\d{1,}$/;
-  let passFormat = /^[A-Za-z]\w{7,14}$/;
-  let regEmail = document.getElementById("reg-email");
-  let regPassword = document.getElementById("reg-password");
-  let regPhone = document.getElementById("reg-phone");
-  let regName = document.getElementById("reg-name");
-  let userData = {
-    name: regName.value,
-    phone: regPhone.value,
-    email: regEmail.value,
-    password: regPassword.value,
-  };
+
   if (!regName.value.trim()) {
     // console.log("Enter Valid Name");
     const Toast = Swal.mixin({
@@ -97,29 +92,33 @@ let registerUser = () => {
     });
   } else {
     btnText.style.display = "none";
+    registerBtn.disabled = true
     loader.style.display = "flex";
     createUserWithEmailAndPassword(auth, regEmail.value, regPassword.value)
-      .then(async (userCredential) => {
+      .then((userCredential) => {
         // Signed up
         const user = userCredential.user;
-        try {
-          await setDoc(doc(db, "users", user.uid), {
-            ...userData,
-            id: user.uid,
-          });
-          let userUid = user.uid;
+        // try {
+        //   await setDoc(doc(db, "users", user.uid), {
+        //     ...userData,
+        //     id: user.uid,
+        //   });
+        //   // let userUid = user.uid;
+        //   // localStorage.setItem("userUid", userUid);
+        //   // localStorage.setItem("status" , true)
 
-          localStorage.setItem("userUid", userUid);
+        //   console.log(
+        //     `Document written with ID: ${user.uid} user name -- > ${userData.name}`
+        //   );
+        //   btnText.style.display = "block";
+        //   registerBtn.disabled = false;
+        //   loader.style.display = "none";
+        //   // window.location = "/profile.html";
+        // } catch (e) {
+        //   console.error("Error adding document: ", e);
+        // }
+        dataToFirestore(user)
 
-          console.log(
-            `Document written with ID: ${user.uid} user name -- > ${userData.name}`
-          );
-          btnText.style.display = "block";
-          loader.style.display = "none";
-          window.location = "/profile.html";
-        } catch (e) {
-          console.error("Error adding document: ", e);
-        }
 
         console.log("user", user);
 
@@ -129,6 +128,7 @@ let registerUser = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         btnText.style.display = "block";
+        registerBtn.disabled = false;
         loader.style.display = "none";
         console.log(errorMessage);
         // ..
@@ -138,6 +138,34 @@ let registerUser = () => {
 let registerBtn = document.getElementById("registerBtn");
 registerBtn.addEventListener("click", registerUser);
 
+let dataToFirestore = async (user) => {
+  let userData = {
+    name: regName.value,
+    phone: regPhone.value,
+    email: regEmail.value,
+    password: regPassword.value,
+  };
+  try {
+    await setDoc(doc(db, "users", user.uid), {
+      ...userData,
+      id: user.uid,
+    });
+    // let userUid = user.uid;
+    // localStorage.setItem("userUid", userUid);
+    // localStorage.setItem("status" , true)
+
+    console.log(
+      `Document written with ID: ${user.uid} user name -- > ${userData.name}`
+    );
+    btnText.style.display = "block";
+    registerBtn.disabled = false;
+    loader.style.display = "none";
+    // window.location = "/profile.html";
+  } catch (e) {
+    console.error("Error adding document: ", e);
+  }
+}
+
 let googleSignIn = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
@@ -146,17 +174,10 @@ let googleSignIn = () => {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      console.log(result);
-
-      console.log(user, "Gooogle<<<<<<<<<<<<<<<<<<");
-      let localUid = localStorage.setItem("userUid", result.user.uid);
-      localStorage.setItem("status" , true)
-      console.log(localUid);
-
+      console.log("user ===>", user);
       // IdP data available using getAdditionalUserInfo(result)
       // ...
-    })
-    .catch((error) => {
+    }).catch((error) => {
       // Handle Errors here.
       const errorCode = error.code;
       const errorMessage = error.message;
@@ -164,7 +185,6 @@ let googleSignIn = () => {
       const email = error.customData.email;
       // The AuthCredential type that was used.
       const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(email, errorMessage);
       // ...
     });
 };
